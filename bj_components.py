@@ -11,7 +11,7 @@ TODO: Make bot player class, add split
 
 import random
 import sys
-from utils import bj_vals, count_value, actions, is_numerical
+from utils import bj_vals, count_value, actions, is_numerical, suits_map, vals_map
 from utils import colors
 bg = colors.bg
 fg = colors.fg
@@ -21,20 +21,39 @@ class card():
 
     """ A class that represents a playing card."""
 
-    def __init__(self, suit: str, value: str):
+    def __init__(self, suit: str, value: str | int):
         """
         Initializer function of the card object.
         Args:
-            suit (str): Card's suit ( one of '♥', '♦', '♠', '♣')
-            value (str): Card's value.
+            suit (str): Card's suit ( one of '♥', '♦', '♠', '♣' or 'heart', 'diamond', etc)
+            value (str | int): Card's value. ( can be 'A', '2', '3', '4', '5', '6', 
+            '7', '8', '9', '10', 'J', 'Q', 'K' or int from 1 to 13)
+
+        Raises:
+            ValueError: If it cannot cast input to a known suit or value.
 
         Returns:
             None.
 
         """
+        try:
+            # figure wheather we are using '♥', '♦', '♠', '♣' by symbol or name
+            suits_map[suit]
+        except:
+            self.suit = suit
+        else:
+            self.suit = suits_map[suit]
 
-        self.suit = suit
-        self.value = str(value)
+        try:
+            # figure wheather we are using symbols or number for the values
+            vals_map[str(value)]
+        except:
+            self.value = str(value)  # typecast if integer
+        else:
+            self.value = vals_map[str(value)]
+
+        if (self.value not in vals_map.values()) or (self.suit not in suits_map.values()):
+            raise ValueError('Incorrect suit or value.')
 
     def bj_value(self) -> int:
         """
@@ -197,7 +216,8 @@ class player():
             print('--------------------------------------')
             return self.action
 
-        if len(self.player_cards) <= 2:
+        if (len(self.player_cards) == 2 and self.player_cards[0].value != self.player_cards[1].value) or len(self.player_cards) == 1:
+            # different cards or single card after split
             tmp = input('Choose an action (h/s/d)\n')
 
             while tmp != 'h' and tmp != 's' and tmp != 'd' and tmp != 'exit':
@@ -205,6 +225,15 @@ class player():
                       colors.reset+'\nTry again,')
                 tmp = input(
                     'Choose an action (h/s/d). Type "exit" to quit game.\n')
+        elif len(self.player_cards) == 2 and self.player_cards[0].value == self.player_cards[1].value:
+            # equal cards
+            tmp = input('Choose an action (h/s/d/x)\n')
+
+            while tmp != 'h' and tmp != 's' and tmp != 'exit' and tmp != 'd' and tmp != 'x':
+                print(fg.orange + 'Invalid input...' +
+                      colors.reset+'\nTry again,')
+                tmp = input(
+                    'Choose an action (h/s/d/x). Type "exit" to quit game.\n')
         else:
             tmp = input('Choose an action (h/s)\n')
 
@@ -336,3 +365,12 @@ class player_bot():
 
     def __init__(self):
         pass
+
+
+if __name__ == '__main__':
+    pass
+    card1 = card('heart', 3)
+    card2 = card('club',3)
+    cards = [card1, card2]
+    Player = player(cards, 'Joe')
+    Player.play()

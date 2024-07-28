@@ -7,15 +7,18 @@ e-mail: alexstrat4@gmail.com
 Utilities used throughout the project
 
 """
-from colorama import just_fix_windows_console # for colored output on CMD
+from colorama import just_fix_windows_console  # for colored output on CMD
 from typing import Any, Tuple
 
 bj_vals = {'A': 11, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
            'J': 10, 'Q': 10, 'K': 10}
 
+suits_map = {'heart': '♥', 'diamond': '♦', 'spade': '♠', 'club': '♣'}
+vals_map = {'1': 'A', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6',
+            '7': '7', '8': '8', '9': '9', '10': '10', '11': 'J', '12': 'Q', '13': 'K'}
+
 
 def count_value(cards: list[object]) -> Tuple[int, bool]:
-
     """
     Function that calculates the Blackjack-value of a given hand of cards.
 
