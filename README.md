@@ -30,12 +30,11 @@ Some examplary screenshots.
 
 ## To-do list
 Possible things to do now.
-1. Add 'split' functionality when Player has two cards of the same value.
-2. Add insurance when the dealer has a visible Ace at the start.
-3. Add shortcuts for blackjacks. i.e. the player does not need to play if the dealer gets a blackjack etc.
-4. Add bots. Maybe explore the statistics of bots with given strategies.
-5. Add a history log that saves data from played games.
-6. Add a "slow mode" functionality that uses ```time.sleep(delay)``` to make terminal output look smoother.
+
+1. Add insurance when the dealer has a visible Ace at the start.
+2. Add shortcuts for blackjacks. i.e. the player does not need to play if the dealer gets a blackjack etc.
+3. Add bots. Maybe explore the statistics of bots with given strategies.
+4. Add a history log that saves data from played games.
 
 
 
