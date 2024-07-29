@@ -11,12 +11,13 @@ from blackjack import Blackjack
 player_name = 'Alex'
 number_of_decks = 8
 starting_cash = 1000.0
-play_speed = 'fast' #TODO
+game_delay ='fast'
 #-----------------------------#
 
 if __name__ == '__main__':
-    BJ = Blackjack(number_of_decks, starting_cash,  player_name)
+    BJ = Blackjack(number_of_decks, starting_cash,  player_name, game_delay)
     while (True):
         BJ.play_round()
+
         
         

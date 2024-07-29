@@ -6,7 +6,7 @@ e-mail: alexstrat4@gmail.com
 
 Module of classes that are essential to make the game.
 
-TODO: Make bot player class, add split
+TODO: Make bot player class
 """
 
 import random
@@ -174,6 +174,7 @@ class player():
         self.bet = None
         self.state = None
         self.value = None
+        self.splitted = False
 
     def play(self) -> str:
         """
@@ -216,7 +217,8 @@ class player():
             print('--------------------------------------')
             return self.action
 
-        if (len(self.player_cards) == 2 and self.player_cards[0].value != self.player_cards[1].value) or len(self.player_cards) == 1:
+        # or len(self.player_cards) == 1:
+        if (len(self.player_cards) == 2 and self.player_cards[0].bj_value() != self.player_cards[1].bj_value()) and self.splitted == False:
             # different cards or single card after split
             tmp = input('Choose an action (h/s/d)\n')
 
@@ -225,8 +227,8 @@ class player():
                       colors.reset+'\nTry again,')
                 tmp = input(
                     'Choose an action (h/s/d). Type "exit" to quit game.\n')
-        elif len(self.player_cards) == 2 and self.player_cards[0].value == self.player_cards[1].value:
-            # equal cards
+        elif len(self.player_cards) == 2 and self.player_cards[0].bj_value() == self.player_cards[1].bj_value() and self.splitted == False:
+            # equal cards (split option)
             tmp = input('Choose an action (h/s/d/x)\n')
 
             while tmp != 'h' and tmp != 's' and tmp != 'exit' and tmp != 'd' and tmp != 'x':
@@ -234,6 +236,8 @@ class player():
                       colors.reset+'\nTry again,')
                 tmp = input(
                     'Choose an action (h/s/d/x). Type "exit" to quit game.\n')
+            if tmp == 'x':
+                self.splitted = True
         else:
             tmp = input('Choose an action (h/s)\n')
 
@@ -365,12 +369,3 @@ class player_bot():
 
     def __init__(self):
         pass
-
-
-if __name__ == '__main__':
-    pass
-    card1 = card('heart', 3)
-    card2 = card('club',3)
-    cards = [card1, card2]
-    Player = player(cards, 'Joe')
-    Player.play()

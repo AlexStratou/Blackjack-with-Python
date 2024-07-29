@@ -9,6 +9,10 @@ Utilities used throughout the project
 """
 from colorama import just_fix_windows_console  # for colored output on CMD
 from typing import Any, Tuple
+import sys
+import os
+import time
+import builtins
 
 bj_vals = {'A': 11, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
            'J': 10, 'Q': 10, 'K': 10}
@@ -50,8 +54,6 @@ def count_value(cards: list[object]) -> Tuple[int, bool]:
 
 
 actions = {'h': 'hit', 's': 'stay', 'd': 'double down', 'x': 'split'}
-
-delay = 0.1  # print delay #TODO
 
 
 class colors:
@@ -102,6 +104,10 @@ class colors:
         lightgrey = '\033[47m'  # white
 
 
+win_lose = [colors.fg.red + 'loses' + colors.reset, colors.fg.green +
+            'wins' + colors.reset, colors.fg.cyan + 'pushes' + colors.reset]
+
+
 def is_numerical(a: Any) -> bool:
     """
     Args:
@@ -117,3 +123,36 @@ def is_numerical(a: Any) -> bool:
         return False
     else:
         return True
+
+
+class Mute:
+    """ Class that mutes inbuild print when in a 'with' block """
+
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w', encoding='utf-8')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout
+
+
+def slow_print(delay: int | float):
+    """
+    Function that adds delay after prints.
+
+    Args:
+        delay (int|float): Delay after print in seconds.
+
+    Returns:
+        None.
+
+    """
+    original_print = builtins.print
+    # Define the custom print function
+
+    def slowed_print(*args, delay=1, **kwargs):
+        original_print(*args, **kwargs)
+        time.sleep(delay)
+    # Override the built-in print function with the custom one
+    builtins.print = slowed_print
