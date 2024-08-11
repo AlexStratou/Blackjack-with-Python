@@ -12,3 +12,7 @@ __pycache__/utils.cpython-311.pyc
 /.spyproject
 __pycache__/utils.cpython-311.pyc
 __pycache__/blackjack.cpython-311.pyc
+.idea/workspace.xml
+.idea/modules.xml
+.idea/misc.xml
+/.idea
